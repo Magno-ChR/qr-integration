@@ -1,0 +1,1 @@
+ALTER TABLE "payment_notifications" ALTER COLUMN "payload" SET DATA TYPE text USING "payload"::text;
