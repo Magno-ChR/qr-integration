@@ -7,6 +7,8 @@ export const rateLimitPolicies = {
   "dashboard-login": { limit: 10, windowMs: 30 * 60 * 1000 },
   "qr-login": { limit: 20, windowMs: 60 * 1000 },
   "qr-payments": { limit: 20, windowMs: 60 * 1000 },
+  "bg-qr-generate": { limit: 20, windowMs: 60 * 1000 },
+  "bg-qr-status": { limit: 30, windowMs: 60 * 1000 },
 } as const;
 
 export type RateLimitScope = keyof typeof rateLimitPolicies;

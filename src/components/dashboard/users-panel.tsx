@@ -58,8 +58,8 @@ export function UsersPanel({ users }: { users: DashboardUserRow[] }) {
         <CardHeader>
           <CardTitle>Nuevo cobrador</CardTitle>
           <CardDescription>
-            El cobrador solo puede ver notificaciones. Más adelante podrá
-            generar QR. Al entrar por primera vez debe cambiar la contraseña.
+            El cobrador consulta notificaciones y genera cobros QR. Al entrar
+            por primera vez debe cambiar la contraseña.
           </CardDescription>
         </CardHeader>
         <CardContent>

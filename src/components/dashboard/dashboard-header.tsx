@@ -10,13 +10,11 @@ export function DashboardHeader({
   description,
   username,
   role,
-  showUsersLink,
 }: {
   title: string;
   description: string;
   username: string;
   role: DashboardRole;
-  showUsersLink?: boolean;
 }) {
   return (
     <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -28,17 +26,27 @@ export function DashboardHeader({
         <p className="max-w-2xl text-sm text-muted-foreground">{description}</p>
       </div>
       <div className="flex flex-wrap gap-2">
-        {showUsersLink ? (
+        <Link href="/" className={cn(buttonVariants({ variant: "outline" }))}>
+          Notificaciones
+        </Link>
+        <Link
+          href="/cobros"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
+          Cobros QR
+        </Link>
+        <Link
+          href="/estado"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
+          Consultar estado
+        </Link>
+        {role === "admin" ? (
           <Link
             href="/usuarios"
             className={cn(buttonVariants({ variant: "outline" }))}
           >
             Usuarios
-          </Link>
-        ) : null}
-        {role === "admin" && !showUsersLink ? (
-          <Link href="/" className={cn(buttonVariants({ variant: "outline" }))}>
-            Notificaciones
           </Link>
         ) : null}
         <LogoutButton />

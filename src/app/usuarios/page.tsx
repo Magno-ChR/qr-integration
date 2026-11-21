@@ -40,7 +40,7 @@ async function UsersGate() {
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6">
       <DashboardHeader
         title="Usuarios"
-        description="El administrador crea cobradores y restablece contraseñas. El cobrador, por ahora, solo consulta notificaciones."
+        description="El administrador crea cobradores y restablece contraseñas. El cobrador consulta notificaciones y genera cobros QR."
         username={session.username}
         role={session.role}
       />

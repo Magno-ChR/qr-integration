@@ -51,7 +51,6 @@ export function NotificationsView({
         description="Cada aviso aceptado en POST /api/qr/payments queda guardado con el JSON original."
         username={username}
         role={role}
-        showUsersLink={role === "admin"}
       />
       <div className="flex justify-end">
         <RefreshButton />

@@ -64,7 +64,19 @@ Copia `.env.example` a `.env.local` en local. En Vercel, carga las mismas claves
 - `JWT_EXPIRES_SECONDS`
 - `DASHBOARD_PASSWORD`
 
-El usuario inicial del panel es `admin`. `DASHBOARD_PASSWORD` solo se usa para crear esa cuenta la primera vez, guardando salt y hash scrypt. No vuelve a leerse en los ingresos siguientes. En el primer ingreso, admin y cualquier usuario nuevo deben cambiar la contraseña. El administrador crea usuarios con rol cobrador y puede restablecer contraseñas. El cobrador solo ve notificaciones.
+El usuario inicial del panel es `admin`. `DASHBOARD_PASSWORD` solo se usa para crear esa cuenta la primera vez, guardando salt y hash scrypt. No vuelve a leerse en los ingresos siguientes. En el primer ingreso, admin y cualquier usuario nuevo deben cambiar la contraseña. El administrador crea usuarios con rol cobrador y puede restablecer contraseñas. Administrador y cobrador consultan notificaciones y, en Cobros QR, generan códigos y consultan su estado.
+
+Para generar cobros contra Banco Ganadero también hacen falta:
+
+- `BG_QR_USERNAME`
+- `BG_QR_PASSWORD`
+- `BG_QR_API_KEY` (máximo 300 caracteres)
+- `BG_QR_ACCOUNT_REFERENCE` (cuenta que recibe el abono)
+- `BG_QR_BASE_URL` (termina en `/qrcode`; no tiene valor por defecto)
+
+A esa base se le agrega el nombre de cada operación: `access`, `collections` y `status`. Una operación nueva se arma igual, sin otra variable.
+
+El panel pide el token en `access` con `X-Api-Key`, genera el QR en `collections` y consulta `status` con `Authorization: Bearer` y `type` 2. El token se reutiliza hasta poco antes de su vencimiento. Cada generación y cada consulta de estado aceptan como máximo 20 y 30 solicitudes por minuto por usuario.
 
 El login del panel acepta como máximo 10 intentos cada 30 minutos por dirección IP. El usuario y la contraseña solo pueden ser alfanuméricos; cualquier otro carácter se rechaza y la consulta sigue siendo parametrizada. `POST /api/qr/login` y `POST /api/qr/payments` aceptan como máximo 20 solicitudes por minuto cada uno, también por IP. Al superar el límite responden `COD429`.
 
@@ -91,6 +103,7 @@ El proyecto usa el runtime Node por defecto, sin Edge. Importa el repositorio en
 - `src/app/api/qr` — adaptadores HTTP, sin lógica de negocio
 - `src/modules/qr-auth` — login y JWT
 - `src/modules/qr-payments` — validación, persistencia y consulta
+- `src/modules/bg-qr` — token, generación y estado en Banco Ganadero
 - `src/modules/dashboard` — sesión del panel
 - `src/shared` — entorno, base de datos y respuestas HTTP
 - `src/components` — interfaz con shadcn/ui

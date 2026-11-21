@@ -55,6 +55,37 @@ export const dashboardUsers = pgTable(
 
 export type DashboardUserRecord = typeof dashboardUsers.$inferSelect;
 
+export const generatedQrCodes = pgTable(
+  "generated_qr_codes",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    qrId: text("qr_id").notNull(),
+    amount: text("amount").notNull(),
+    currency: text("currency").notNull(),
+    gloss: text("gloss").notNull(),
+    reference: text("reference").notNull(),
+    expirationDate: text("expiration_date").notNull(),
+    singleUse: text("single_use").notNull(),
+    qrImage: text("qr_image").notNull(),
+    orderState: integer("order_state"),
+    statusMessage: text("status_message"),
+    payDate: text("pay_date"),
+    payHour: text("pay_hour"),
+    transactionNumber: text("transaction_number"),
+    createdBy: text("created_by").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    statusCheckedAt: timestamp("status_checked_at", { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex("generated_qr_codes_qr_id_idx").on(table.qrId),
+    index("generated_qr_codes_created_at_idx").on(table.createdAt),
+  ],
+);
+
+export type GeneratedQrCodeRecord = typeof generatedQrCodes.$inferSelect;
+
 export const rateLimitBuckets = pgTable(
   "rate_limit_buckets",
   {
