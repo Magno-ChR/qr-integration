@@ -18,10 +18,10 @@ export async function savePaymentNotification(
     qrId: input.qrId,
     transactionId: input.transactionId,
     payDate: input.payDate,
-    payHour: input.payHour,
-    originAccount: input.originAccount,
-    originBank: input.originBank,
-    amount: input.amount,
+    payHour: input.payHour ?? null,
+    originAccount: input.originAccount ?? null,
+    originBank: input.originBank ?? null,
+    amount: input.amount ?? null,
     payload: JSON.stringify(payload),
   });
 }

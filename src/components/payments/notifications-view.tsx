@@ -42,7 +42,10 @@ export function NotificationsView({
   username: string;
   role: DashboardRole;
 }) {
-  const shownAmount = rows.reduce((sum, row) => sum + Number(row.amount), 0);
+  const shownAmount = rows.reduce(
+    (sum, row) => sum + Number(row.amount ?? 0),
+    0,
+  );
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6">
@@ -123,16 +126,21 @@ export function NotificationsView({
                       {row.transactionId}
                     </TableCell>
                     <TableCell>
-                      {formatPayDate(row.payDate)} {row.payHour}
+                      {formatPayDate(row.payDate)}
+                      {row.payHour ? ` ${row.payHour}` : ""}
                     </TableCell>
                     <TableCell className="font-mono text-xs">
-                      {row.originAccount}
+                      {row.originAccount ?? "—"}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{row.originBank}</Badge>
+                      {row.originBank ? (
+                        <Badge variant="secondary">{row.originBank}</Badge>
+                      ) : (
+                        "—"
+                      )}
                     </TableCell>
                     <TableCell className="text-right font-mono">
-                      {row.amount}
+                      {row.amount ?? "—"}
                     </TableCell>
                     <TableCell>
                       <PayloadDialog

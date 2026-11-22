@@ -10,22 +10,34 @@ const payHour = z
   .regex(/^\d{2}:\d{2}$/, "payHour debe tener formato HH:mm")
   .refine(isRealPayHour, "payHour no es una hora válida");
 
+const amount = z
+  .string()
+  .regex(/^\d+(\.\d+)?$/, "amount debe ser un número positivo")
+  .refine((value) => Number(value) > 0, "amount debe ser mayor a 0");
+
 export const paymentNotificationSchema = z.object({
   qrId: z.string().trim().min(1, "qrId es obligatorio"),
   transactionId: z.string().trim().min(1, "transactionId es obligatorio"),
   payDate,
-  payHour,
-  originAccount: z.string().trim().min(1, "originAccount es obligatorio"),
-  originBank: z.string().trim().min(1, "originBank es obligatorio"),
-  amount: z
-    .string()
-    .regex(/^\d+(\.\d+)?$/, "amount debe ser un número positivo")
-    .refine((value) => Number(value) > 0, "amount debe ser mayor a 0"),
+  payHour: optionalField(payHour),
+  originAccount: optionalField(z.string().trim().min(1, "originAccount no puede estar vacío")),
+  originBank: optionalField(z.string().trim().min(1, "originBank no puede estar vacío")),
+  amount: optionalField(amount),
 });
 
 export type PaymentNotificationInput = z.infer<
   typeof paymentNotificationSchema
 >;
+
+function optionalField<T extends z.ZodType>(schema: T) {
+  return z.preprocess((value) => {
+    if (value === undefined || value === null || value === "") {
+      return undefined;
+    }
+
+    return value;
+  }, schema.optional());
+}
 
 function isRealPayDate(value: string) {
   const day = Number(value.slice(0, 2));

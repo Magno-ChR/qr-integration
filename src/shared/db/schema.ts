@@ -16,10 +16,10 @@ export const paymentNotifications = pgTable(
     qrId: text("qr_id").notNull(),
     transactionId: text("transaction_id").notNull(),
     payDate: text("pay_date").notNull(),
-    payHour: text("pay_hour").notNull(),
-    originAccount: text("origin_account").notNull(),
-    originBank: text("origin_bank").notNull(),
-    amount: text("amount").notNull(),
+    payHour: text("pay_hour"),
+    originAccount: text("origin_account"),
+    originBank: text("origin_bank"),
+    amount: text("amount"),
     payload: text("payload").notNull(),
     receivedAt: timestamp("received_at", { withTimezone: true })
       .notNull()

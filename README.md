@@ -24,17 +24,13 @@ El token dura 5 minutos (`JWT_EXPIRES_SECONDS`) y usa HS256. Los claims `unique_
 
 `POST /api/qr/payments`
 
-Requiere `Authorization: Bearer <token>` y este cuerpo:
+Requiere `Authorization: Bearer <token>`. Obligatorios: `qrId`, `transactionId` y `payDate` (`DDMMYYYY`). Si llegan, también se guardan `payHour`, `originAccount`, `originBank` y `amount`.
 
 ```json
 {
-  "qrId": "26111401018000063937",
+  "qrId": "26112201018000000620",
   "transactionId": "800288796",
-  "payDate": "14112026",
-  "payHour": "12:27",
-  "originAccount": "2032837-000-001",
-  "originBank": "BSO",
-  "amount": "239.4"
+  "payDate": "14112026"
 }
 ```
 
